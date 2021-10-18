@@ -1,0 +1,45 @@
+ALTER TABLE g_prod_shelve_info add if_default_sale_price tinyint(3) unsigned NOT NULL default 1 COMMENT '是否是默认售价 1 是,0 否' after sale_price
+
+update g_prod_shelve_info shelve  inner join g_prod_base_price price 
+on shelve.sku_id = price.sku_id set shelve.if_default_sale_price = 1 where price.sale_price = shelve.sale_price;
+update g_prod_shelve_info shelve  inner join g_prod_base_price price 
+on shelve.sku_id = price.sku_id set shelve.if_default_sale_price = 0 where price.sale_price != shelve.sale_price;
+
+CREATE TABLE `m_channel_mapper_self_support` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `PID` smallint(6) DEFAULT NULL COMMENT '父ID',
+  `PNAME` varchar(20) DEFAULT NULL COMMENT '父名称',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+INSERT into m_channel_mapper_self_support (ID,PID,PNAME) values 
+(1,0,"总部"),
+(2,0,"公司"),
+(3,0,"商家(外)"),
+(4,0,"商家(自)"),
+(5,1,"F2B业务"),
+(6,1,"F2C业务"),
+(7,1,"B2B平台"),
+(8,1,"BBC商城"),
+(9,2,"B2B业务"),
+(10,2,"B2C业务"),
+(13,3,"b2C业务"),
+(18,4,"B2C业务"),
+(20,4,"b2C业务"),
+(21,5,"10001"),
+(22,5,"10008"),
+(23,6,"10005"),
+(24,7,"10011"),
+(25,8,"10010"),
+(26,9,"10002"),
+(27,9,"10007"),
+(28,10,"10004"),
+(29,10,"10012"),
+(33,13,"10003"),
+(34,13,"10006"),
+(40,18,"10004"),
+(42,20,"10006")
+
+ALTER TABLE m_member_benefit_goods add benefit_goods_type tinyint(3) unsigned NOT NULL default 1 COMMENT '会员折扣类型,1.默认折扣,2.指定折扣,3.指定价格' after benefit_price;
+update m_member_benefit_goods set benefit_goods_type = 2 where 1 =1 
+
