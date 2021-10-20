@@ -129,12 +129,11 @@ use member;
 
 CREATE TABLE m_ecard_import_task 
 (
-    id               bigint auto_increment
-        primary key,
+    id               bigint auto_increment primary key,
+    ecard_rule_id   bigint null comment '钟山e卡规则表主键',
     file_name        varchar(100) default ''  not null comment '上传文件名称',
     uploader_name    varchar(45)              not null comment '上传人名称',
     uploader_id      bigint       default 0   not null comment '上传者id',
-    channel_code     varchar(64)  default ''  not null,
     top_up_object    int(4)       default 1   not null comment '会员类型 1 普通会员，2 企业会员',
     status           int(4)       default 0   not null comment '0 待处理 1 处理中 2 处理失败 3 处理完成',
     upload_time      timestamp                null comment '上传时间',
@@ -148,4 +147,54 @@ CREATE TABLE m_ecard_import_task
     update_user_name varchar(100) default ''  not null,
     update_user_ip   varchar(50)  default ''  not null
 )comment '钟山E卡导入任务表';
+
+create table m_ecard_import_detail
+(
+    id               bigint auto_increment comment '主键id'
+        primary key,
+    task_id          bigint        default 0  not null comment '任务id',
+    mobile           varchar(60)   default '' not null comment '手机号',
+    amount           varchar(20)              null comment '储值金额',
+    name             varchar(255)             null comment '姓名',
+    remark           varchar(1000) default '' null comment '备注',
+    status           int(4)        default 0  not null comment '0  失败 1 成功',
+    fail_reason      varchar(255)  default '' not null comment '失败原因',
+    is_deleted       int(2)        default 0  not null,
+    create_time      timestamp                null,
+    create_user_id   bigint        default 0  not null,
+    create_user_name varchar(100)  default '' not null,
+    create_user_ip   varchar(50)   default '' not null,
+    update_time      timestamp                null,
+    update_user_id   bigint        default 0  not null,
+    update_user_name varchar(100)  default '' not null,
+    update_user_ip   varchar(50)   default '' not null
+)comment '钟山E卡普通会员导入任务详情表';
+
+create table m_ecard_import_detail_employees
+(
+    id               bigint auto_increment comment '主键id'
+        primary key,
+    task_id          bigint        default 0  not null comment '任务id',
+    amount           varchar(20)              null comment '储值金额',
+    phone            bigint                   null comment '员工手机号码',
+    name             varchar(255)             null comment '员工姓名',
+    id_number        varchar(255)             null comment '身份证号',
+    company          varchar(255)             null comment '公司',
+    department       varchar(255)             null comment '部门',
+    team             varchar(255)             null comment '班组',
+    remark           varchar(1000) default '' null comment '备注',
+    status           int(4)        default 0  not null comment '0  失败 1 成功',
+    fail_reason      varchar(255)  default '' not null comment '失败原因',
+    is_deleted       int(2)        default 0  not null,
+    create_time      timestamp                null,
+    create_user_id   bigint        default 0  not null,
+    create_user_name varchar(100)  default '' not null,
+    create_user_ip   varchar(50)   default '' not null,
+    update_time      timestamp                null,
+    update_user_id   bigint        default 0  not null,
+    update_user_name varchar(100)  default '' not null,
+    update_user_ip   varchar(50)   default '' not null
+)comment '钟山E卡企业会员导入任务详情表';
+
+
 
